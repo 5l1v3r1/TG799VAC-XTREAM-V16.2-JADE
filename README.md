@@ -1,5 +1,4 @@
-![alt text](https://sendit.nu/f/9ym%21h%3FmGl42ctJ.png)
-
+![Screenshot](/files/tg799vac-xtreme.gif)
 # README
 
    Telia users with this router model can finally unlock the router and get more features added by hacking the firmware due to an exploit missed by Technicolor developers, this hack works for all internet providers worldwide
