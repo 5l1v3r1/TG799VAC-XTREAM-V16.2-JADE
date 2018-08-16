@@ -1,14 +1,19 @@
 ![Screenshot](/files/tg799vac-xtreme.gif)
 # README
 
-   Telia users with this router model can finally unlock the router and get more features added by hacking the firmware due to an exploit missed by Technicolor developers, this hack works for all internet providers worldwide
-   that deliver this router aslong you are using the same version as in this tutorial, Jade (16.2). Technicolor has fixed the exploit in version 17.* and above. Telia still is using version 16.2 as default so hurry up before it is 
+   Telia users with this router model can finally unlock the router and get more features added by hacking the firmware due to an exploit missed by Technicolor developers, this hack works for all 
+internet providers worldwide
+   that deliver this router aslong you are using the same version as in this tutorial, Jade (16.2). Technicolor has fixed the exploit in version 17.* and above. Telia still is using version 16.2 as 
+default so hurry up before it is 
 to
    late since the router upgrading itself otherwise. In this wiki i will show how you can turn this auto-upgrade off.
 
-   Please note that if you rent your router from your carrier, you will be liable for repayment if you bricking the device. This is stated in the agreement you have with your carrier, atleast customers of Telia has done an 
-   agreement if you chosed to get the router along with the order of the internet subscription. Please check this out first if you do not want to risk paying compensation for a bricked device because there is always a risk of 
-   hacking a firmware. If you follow my guide then everything should be fine, I will not take any responsibility if you bricking your device in any way at all!!!! All users that following this wiki is hacking their 
+   Please note that if you rent your router from your carrier, you will be liable for repayment if you bricking the device. This is stated in the agreement you have with your carrier, atleast 
+customers of Telia has done an 
+   agreement if you chosed to get the router along with the order of the internet subscription. Please check this out first if you do not want to risk paying compensation for a bricked device because 
+there is always a risk of 
+   hacking a firmware. If you follow my guide then everything should be fine, I will not take any responsibility if you bricking your device in any way at all!!!! All users that following this wiki 
+is hacking their 
    device at their own risk and they have been well informed of the risks it CAN causes to hack the firmware!!
 
    Required for this tutorial:
@@ -26,7 +31,7 @@ to
 
     nc -lvvp [machine_port]
 
- ![alt text](https://sendit.nu/f/TDoddJrPKo_qpk.png)
+ ![Screenshot](files/tg799vac-xtreme-1.png)
 
 #### Go to the ping/traceroute diagnostics page in the gateway’s web management, and enter the following:
 
@@ -34,11 +39,11 @@ to
 
 ## Here i providing a picture aswell: 
 
-![alt text](https://sendit.nu/f/-JBSlHHo%21E72A.png)
+![Screenshot](files/tg799vac-xtreme-2.png)
 
 ## You should see it like this now:
 
-![alt text](https://cdn-05.minfil.com/Be6bGfebbc/f1e4b7f1-1527766082/Screenshot_20180531_152035.png)
+![Screenshot](files/tg799vac-xtreme-3.png)
 
 ### Set your password and then copy / paste:
 
@@ -76,10 +81,10 @@ to
    The firmware has been **extremely** downgraded to the worse for us consumers.
 
 ### Default settings for Telia web-interface looks like this:
-![alt text](https://cdn-02.minfil.com/F65bG2e5b9/22a06cb5-1527765116/Screenshot_20180531_145947.png)
+![Screenshot](files/tg799vac-xtreme-4.png)
 
 ### This is how it looks after we run these commands above:
-![alt text](https://cdn-04.minfil.com/Ve5dGbebb3/2c858ed8-1527765285/Screenshot_20180531_150207.png)
+![Screenshot](files/tg799vac-xtreme-5.png)
 
 ### Now you can continue to copy and paste to set some important change for our privacy.
 
@@ -141,15 +146,12 @@ to
     uci set system.config.export_unsigned='1'
     uci set system.config.import_plaintext='1'
     uci set system.config.import_unsigned='1'
-    sed -e 's/session:hasAccess("\/modals\/diagnostics-network-modal.lp")/session:hasAccess("\/modals\/diagnostics-network-modal.lp") and \n session:hasAccess("\/modals\/diagnostics-tcpdump-modal.lp")/' -i 
-    /www/cards/009_diagnostics.lp
-    sed -e 's^alt="network"></div></td></tr>\\^alt="network"></div></td>\\\n <td><div data-toggle="modal" data-remote="modals/diagnostics-tcpdump-modal.lp" data-id="diagnostics-tcpdump-modal"><img href="#" rel="tooltip" 
-    data-original-title="TCPDUMP" 
+    sed -e 's/session:hasAccess("\/modals\/diagnostics-network-modal.lp")/session:hasAccess("\/modals\/diagnostics-network-modal.lp") and \n session:hasAccess("\/modals\/diagnostics-tcpdump-modal.lp")/' -i /www/cards/009_diagnostics.lp
+    sed -e 's^alt="network"></div></td></tr>\\^alt="network"></div></td>\\\n <td><div data-toggle="modal" data-remote="modals/diagnostics-tcpdump-modal.lp" data-id="diagnostics-tcpdump-modal"><img href="#" rel="tooltip" data-original-title="TCPDUMP" 
     src="/img/network_sans-32.png" alt="network"></div></td></tr>\\^' -i /www/cards/009_diagnostics.lp
     sed -e 's/{"logviewer-modal.lp", T"Log viewer"},/{"logviewer-modal.lp", T"Log viewer"},\n {"diagnostics-tcpdump-modal.lp", T"tcpdump"},\n/' -i /www/snippets/tabs-diagnostics.lp
     sed -e 's/getrole()=="guest"/getrole()=="admin"/' -i /www/snippets/tabs-voice.lp
-    sed -e 's/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},\n{"mmpbx-inoutgoingmap-modal.lp", T"In-Out Mapping"},\n{"mmpbx-statistics-modal.lp", T"Statistics"},/' -i 
-    /www/snippets/tabs-voice.lp
+    sed -e 's/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},\n{"mmpbx-inoutgoingmap-modal.lp", T"In-Out Mapping"},\n{"mmpbx-statistics-modal.lp", T"Statistics"},/' -i /www/snippets/tabs-voice.lp
     sed -e 's/if currentuserrole == "guest" /if currentuserrole == "admin" /' -i /www/docroot/modals/gateway-modal.lp
     echo > /etc/rc.local
     /etc/init.d/nginx restart;
@@ -250,7 +252,7 @@ to
    
      ssh root@192.168.1.1
    
-   ![alt text](https://sendit.nu/f/ujLRk8dvGQkjvo.png)
+   ![Screenshot](files/tg799vac-xtreme-6.png)
 
 
 # Want get rid of the default layout?
@@ -269,22 +271,22 @@ to
    router then copy & paste my commands below the previews: (or download my css files and scp them over to router)
 
 #### Login page:
-![alt text](https://cdn-04.minfil.com/n3P8G2eeb2/d24425c1-1527804786/111111111.png)
+![Screenshot](files/tg799vac-xtreme-7.png)
 
 #### Once you've logged in, it looks like this:
-![alt text](https://cdn-07.minfil.com/8690G1e7b3/778eb6c1-1527772874/213.png)
+![Screenshot](files/tg799vac-xtreme-8.png)
 
 #### This is my personal theme from a mobile device:
-![alt text](https://cdn-02.minfil.com/13SbG5e4bf/09bb0136-1527813545/Screenshot_20180601-023253.png)
+![Screenshot](files/tg799vac-xtreme-9.png)
 
 #### This is my personal theme from a pc device:
-![alt text](https://cdn-04.minfil.com/03S7G1e7b9/bd2cca66-1527813480/Screenshot_20180601_043445.png)
+![Screenshot](files/tg799vac-xtreme-10.png)
 
 #### A failed login attempt as user 'telia' or 'assist' (ofc, all usernames will be logged) will be reported from now since they dont have permissions to login if i didnt requested support from them:
-![alt text](https://cdn-04.minfil.com/re9eGeeab0/6019ce4d-1527772384/Screenshot_20180531_161427.png)
+![Screenshot](files/tg799vac-xtreme-11.png)
 
 #### We can see failed login attempts in the system log for both telnet, ssh and the web:
-![alt text](https://cdn-04.minfil.com/98S2G3e3b1/662f7c51-1527813772/Screenshot_20180601_035227.png)
+![Screenshot](files/tg799vac-xtreme-12.png)
 
 #### To get colors as above, paste following in router shell: 
     sed -i s/'333333'/'e6e6e6'/g gw.css; sed -i s/'333333'/'e6e6e6'/g responsive.css; sed -i s/'333333'/'e6e6e6'/g lte-doctor.css; 
@@ -344,6 +346,7 @@ to
      https://sendit.nu & https://github.com/wuseman/
 
 ### END!
+
 
 
 
