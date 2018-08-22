@@ -75,7 +75,8 @@ is hacking their
     sed -i '25s/0/1/' /etc/config/dropbear
     /etc/init.d/nginx restart
     
-### ^ Gave you 10 new settings in web interface
+### Above commands gave you 10 new settings in web interface
+
 #### Please go and witness it on http://dlsdevice.lan 
    Let me provide the default view to see the difference before and after we run these commands
    since I know that there are people who are paranoid for changes due to root. ;)
@@ -86,16 +87,6 @@ is hacking their
 
 ### This is how it looks after we run these commands above:
 ![Screenshot](files/tg799vac-xtreme-5.png)
-
-### Now go install a package for example wget
-    
-    opkg install wget
-    Installing wget (1.13.4-1) to root...
-    Downloading http://downloads.openwrt.org/attitude_adjustment/12.09/brcm63xx/generic/packages//wget_1.13.4-1_brcm63xx.ipk.
-    Multiple packages (librt and librt) providing same name marked HOLD or PREFER. Using latest.
-    Configuring wget.
-
-    Thats it ;)
 
 ### Now you can continue to copy and paste to set some important change for our privacy.
 
@@ -179,6 +170,16 @@ is hacking their
 
 ![Screenshots](files/tg799vac-xtreme13.gif)
 
+### Now go install a package, let me show an example for wget
+    
+    opkg install wget
+    Installing wget (1.13.4-1) to root...
+    Downloading http://downloads.openwrt.org/attitude_adjustment/12.09/brcm63xx/generic/packages//wget_1.13.4-1_brcm63xx.ipk.
+    Multiple packages (librt and librt) providing same name marked HOLD or PREFER. Using latest.
+    Configuring wget.
+
+    Thats it ;)
+    
 #### List URLs for firmware that can be downloaded.
 
      strings /etc/cwmpd.db 
