@@ -307,6 +307,38 @@ is hacking their
      /etc/init.d/dlnad stop
      /etc/init.d/dlnad disable
      
+#### To view currently dhcp leases:
+
+     cat /tmp/dhcp.leases
+     1534969000 macaddr lanip machine macaddr
+     
+#### To view arp log
+ 
+     cat /tmp/arp.log
+     root@OpenWrt:/tmp# cat /tmp/arp.log 
+     IP address       HW type     Flags       HW address            Mask     Device
+     lanip            0x1         0x2         X0:X0:X0:X0:X0:X0      *        br-lan
+     mgmt_ip          0x1         0x2         X0:X0:X0:X0:X0:X0     *        vlan_mgmt
+     wanip            0x1         0x2         X0:X0:X0:X0:X0:X0     *        eth4
+     
+#### List mac-addr.
+
+    ifconfig -a  | sed '/eth\|wl/!d;s/ Link.*HWaddr//
+    eth0      X0:X0:X0:X0:X0:X0  
+    eth1      X0:X0:X0:X0:X0:X0 
+    eth2      X0:X0:X0:X0:X0:X0  
+    eth3      X0:X0:X0:X0:X0:X0 
+    eth4      X0:X0:X0:X0:X0:X0 
+    eth5      X0:X0:X0:X0:X0:X0 
+    vlan_eth0 X0:X0:X0:X0:X0:X0 
+    vlan_eth1 X0:X0:X0:X0:X0:X0  
+    vlan_eth2 X0:X0:X0:X0:X0:X0   
+    vlan_eth3 X0:X0:X0:X0:X0:X0  
+    vlan_eth5 X0:X0:X0:X0:X0:X0 
+    wl0       X0:X0:X0:X0:X0:X0 
+    wl0_1     X0:X0:X0:X0:X0:X0   
+    wl0_2     X0:X0:X0:X0:X0:X0  
+   
 #### Disable Monitor Of Traffic
 
      uci set system.@trafficmon[0].interface=''
