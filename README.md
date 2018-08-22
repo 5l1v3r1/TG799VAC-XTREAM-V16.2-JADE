@@ -164,6 +164,42 @@ is hacking their
     /etc/init.d/dropbear start
     uci commit
 
+#### List URLs for firmware that can be downloaded.
+
+     strings /etc/cwmpd.db 
+
+    SQLite format 3
+    tabletidkvtidkv
+    CREATE TABLE tidkv (  type TEXT NOT NULL,  id TEXT NOT NULL,  key TEXT NOT NULL,  value TEXT,  PRIMARY KEY (type, id, key)))
+    indexsqlite_autoindex_tidkv_1tidkv
+    transferPassword5
+    transfer Username
+    Stransfer URLhttp://192.168.21.52:7547/ACS-server
+    5transferaStartTime2018-08-19T15:20:13Z
+    transfera FaultStringcomplete
+    transfera FaultCode0M_
+    M%5transfera CompleteTime2018-08-19T15:19:57Z
+    'transfera TimeStamp244,9XXXXXX
+    transfera DelaySeconds3
+    transfera Password
+    transfera Username
+    runtimevarParameterKey#
+    runtimevarConfigurationVersionD
+    %_runtimevarBootStrappedhttps://acs.telia.com:7575/ACS-server/ACS-
+    +/VersionsSoftwareVersion16.2.XXXXXX
+    transfer FaultString
+    transfer FaultCode
+    transfer TimeSt6
+    transfera UsernameU
+    transfera URLT7
+    transfera TimeStampX
+    transfera SubStatec
+    transfera Stateb7
+    transfera StartTimed
+    transfera PasswordV
+    
+    And alot more will be posted, i just wanna show you how it is done. 
+
 #### Serial Console
 
     More info will be addded here later, had no time to write this part yet.
@@ -318,7 +354,7 @@ is hacking their
      /etc/init.d/tod stop
      /etc/init.d/tod disable
      
-# _Root your TG799 Router_
+# _Root your TG799 Router_ ( DANGEROUS! YOU HAVE BEEN WARNED)
 
     inactive_bank="$(cat /proc/banktable/inactive)"  # bank_1 or bank_2
     inactive_overlay="/overlay/$inactive_bank"
@@ -333,134 +369,51 @@ is hacking their
     echo "$inactive_bank" > /proc/banktable/active
     sync
     reboot
-
-### Setup
-
-1. Disconnect any form of WAN connection from your modem, such as the xDSL
-   line or Ethernet connection on the WAN port.  This is super important in
-   ensuring that the modem's firmware doesn't go auto-updating.
    
-1. Have a computer or device on hand where you can set up the following tools.
-   If you don't have Python (with tkinter support) or Git installed, you'll
-   need to install them both or figure out a plan to proceed manually.
-   
-   Your device will need to have a GUI (eg not be a headless server) 
-   as well for at least when tkinter gets used for the `autoflashgui` tool.
-   Everything else should work headless, if you're so inclined.
-   
-1. Get the latest version of these scripts; you'll need them for later:
-
-   ```sh
-   git clone https://github.com/davidjb/technicolor-tg799vac-hacks.git
-   ```
-   
-   Make sure you do this on your computer/device rather than on your modem.
-
-1. Get the latest version of `autoflashgui`, the firmware flashing and root
-   tool:
-
-   ```sh
-   git clone https://github.com/mswhirl/autoflashgui.git
-   ```
-   
-   Again, make sure this is on your computer/device and not your modem.
-
-1. [Get the
-   firmware](https://drive.google.com/drive/folders/1n9IAp9qUauTT9eMLf3oYQMbodFEGFHyL)
-   for your TG799vac device.  You'll need the two firmwares
-   as indicated below.  For completeness, here are the SHA-256 hashes:
-
-   ```
-   38b41546133b2e979befce8e824654289aa237446fc4118444f271423c35e3fa vant-f_CRF687-16.3.7567-660-RG.rbi
-   0c9bf5e739600ceae61362eebc6ee271783ff85e5d60e3c3076f98bd37648d02 vant-f_CRF683-17.2.188-820-RA.rbi
-   ```
-
-1. Setup the `autoflashgui` tool:
-
-   ```sh
-   cd autoflashgui
-   virtualenv .
-   source ./bin/activate
-   pip install robobrowser==0.5.3
-   ```
-
-### Flash and get root
-
-If your modem happens to be running a newer firmware version (such as an
-Over-The-Air [OTA] upgrade that happened) or you happen to get locked out for
-any reason, try a factory reset with the modem physically disconnected from
-the Internet.
-
-To factory reset, get a paperclip and hold down the reset button for 15
-seconds.  Release the button and wait a few moments -- the modem will restore,
-all the LEDs will flash and the modem will reset.
-
-1. Start the tool:
-
-   ```sh
-   python autoflashgui.py
-   ```
-
-1. Flash `vant-f_CRF683-17.2.188-820-RA.rbi` with the tool.  This will fail to
-   root (console will continually keep trying to connect and fail; this is
-   okay).  In my second attempt with a modem starting from firmware 15.3, this
-   actually appeared to succeed and send comamnds to the newly-booted 17.2
-   firmware, but the SSH port wasn't open.
-
-
-1. Kill the tool in the console with `Control-C`.
-
-1. Flash `vant-f_CRF687-16.3.7567-660-RG.rbi` with the tool. This will take a
-   little while as it authenticates, then flashes, waits for a reboot of the
-   modem and then eventually proceeds to perform command injection on the
-   modem.
-
-   If at this point the modem is not allowing SSH connections, then you may
-   need to reflash the version of 17.2 now when on what should be a rooted
-   version of 16.3.  This is something I observed when the firmware first
-   started out at 17.2 on one specific device, so I suspect the flashing of
-   17.2 when already on some version of 17.2 meant the flash didn't take or
-   apply correctly.  In any case, reflashing 17.2 at this point (and then
-   reflashing 16.3 *again*...) solved this for me.  Once you do get an SSH
-   session available, you can continue on.
-
-1. When done, SSH to the modem as `root` and change the password
-   **immediately**:
-
-   ```sh
-   ssh root@10.0.0.138
-   # Now on the modem...
-   passwd
-   ```
-
-1. Remove the pre-existing `/etc/dropbear/authorized_keys` file and ideally
-   replace it with your own.  This is a fun little backdoor the devs left
-   there, judging by the comment `TCH Debug` on one of the keys.
-
-1. Reboot the modem to complete disabling the services that were killed during
-   the rooting process with `autoflashgui.py`
-
-### Root and switch to new firmware
-
-By this point, your modem is now running `16.3` firmware and has the `17.2`
-firmware on board in its inactive, secondary flash partition.  We'll now
-switch over to the latter firmware after injecting the ability to give
-ourselves root.
-
-1. Re-connect to the modem's wifi network and SSH back in to run the contents
-   of `01-root-and-switch-fw.sh`:
-
-   ```sh
-   ssh root@10.0.0.138 'sh' < ./01-root-and-switch-fw.sh
-   ```
-
-   _There are more secure ways to run the file, like actually inspecting the
-   contents.  It's up to you how safe you'd like to play it and mostly how
-   much you trust me / GitHub._
-
-
-
+#### For login with debug mode enabled, then please go to:
      
+     http://192.168.1.1/?debug=1
+     
+#### Mount / as read and write
+
+    mount -o remount,rw /
+
+#### Disable so your router wont restart if there is an segmentation fault in a user space program.
+
+    uci set system.@coredump[0].reboot='0'
+    uci commit system
+
+#### Get permananent root access
+
+    Modifying the /etc/inittab file by type
+    sed -i '3s/^.//g' /etc/inittab
+   
+#### Enable bridged mode from /etc/config/network
+
+![Screenshot](files/tg799vac-xtreme-11.gif)
+Add this settings under the interface 'lan' .. I have provided a video for this step
+ 
+    cat  /etc/config/network | grep -A11 "interface 'lan'" # This will list current settings
+    config interface 'lan'
+    option type 'bridge'
+    option proto 'static'
+    option ipaddr '192.168.1.1'
+    option netmask '255.255.255.0'
+    option force_link '0'
+    option ip6hint '0'
+    option igmp_snooping '0'
+    option ipv6 '0'
+    option ip6assign '64'
+    #      option ifname 'vlan_eth0 vlan_eth1 vlan_eth2 vlan_eth3 vlan_eth5'
+    #      list pppoerelay ''                                                                                               
+    list ifname 'eth0'
+    list ifname 'eth1'
+    list ifname 'eth2'
+    list ifname 'wl0'
+    list ifname 'wl0_1'
+    list ifname 'wl1'
+    list ifname 'wk1_1'
+
 #### Tired on passwords and want to use dropbear key for login instead, then do following:
 
 #### Generate the Key Pair on your pc (not router):
