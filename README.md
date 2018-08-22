@@ -163,6 +163,11 @@ is hacking their
     killall -9 hotspotd cwmpd cwmpdboot watchdog-tch wifi-doctor-agent tls-vsparc;
     /etc/init.d/dropbear start
     uci commit
+  
+#### Want to install ipk packages with a working opkg.conf? 
+#### Then Follow This Video I Made For You ;)
+
+![Screenshots](files/tg799vac-xtreme13.gif)
 
 #### List URLs for firmware that can be downloaded.
 
