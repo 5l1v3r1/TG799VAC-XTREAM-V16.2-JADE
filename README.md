@@ -87,6 +87,16 @@ is hacking their
 ### This is how it looks after we run these commands above:
 ![Screenshot](files/tg799vac-xtreme-5.png)
 
+### Now go install a package for example wget
+    
+    opkg install wget
+    Installing wget (1.13.4-1) to root...
+    Downloading http://downloads.openwrt.org/attitude_adjustment/12.09/brcm63xx/generic/packages//wget_1.13.4-1_brcm63xx.ipk.
+    Multiple packages (librt and librt) providing same name marked HOLD or PREFER. Using latest.
+    Configuring wget.
+
+    Thats it ;)
+
 ### Now you can continue to copy and paste to set some important change for our privacy.
 
     uci set dropbear.lan.enable='1'
