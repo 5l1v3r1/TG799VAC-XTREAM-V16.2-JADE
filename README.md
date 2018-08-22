@@ -200,27 +200,6 @@ is hacking their
     
     And alot more will be posted, i just wanna show you how it is done. 
 
-#### Serial Console
-
-    More info will be addded here later, had no time to write this part yet.
-    /etc/initd
-    #ttyS0::askfirst:/bin/login
-    echo > /etc/dropbear/authorized_keys
-
-#### Speeding up VDSL sync times
-
-    uci del_list xdsl.dsl0.profile='8a'
-    uci del_list xdsl.dsl0.profile='8b'
-    uci del_list xdsl.dsl0.profile='8c'
-    uci del_list xdsl.dsl0.profile='8d'
-    uci del_list xdsl.dsl0.profile='12a'
-    uci del_list xdsl.dsl0.profile='12b'
-    uci del_list xdsl.dsl0.multimode='gdmt'
-    uci del_list xdsl.dsl0.multimode='adsl2annexm'
-    uci del_list xdsl.dsl0.multimode='adsl2plus'
-    uci commit
-    reboot
-
 ### If you wish to add the selections to the web interface to play with later, you can run the following:
 
     uci add_list web.ruleset_main.rules=xdsllowmodal
@@ -371,7 +350,8 @@ is hacking their
     sed -i '3s/^.//g' /etc/inittab
    
 #### Enable bridged mode from /etc/config/network
-Add this settings under the interface 'lan' .. I have provided a video for this step, commands is below my video.
+
+You can copy paste everything from below the video if you are lazy.
 
 ![Screenshot](files/tg799vac-xtreme-11.gif)
 
@@ -397,7 +377,7 @@ Add this settings under the interface 'lan' .. I have provided a video for this 
     list ifname 'wl1'
     list ifname 'wk1_1'
 
-#### Tired on passwords and want to use dropbear key for login instead, then do following:
+## Tired on passwords and want to use dropbear key for login instead? Then do: 
 
 #### Generate the Key Pair on your pc (not router):
 
@@ -441,7 +421,14 @@ Add this settings under the interface 'lan' .. I have provided a video for this 
     echo "$inactive_bank" > /proc/banktable/active
     sync
     reboot
-    
+
+#### Serial Console
+
+    More info will be addded here later, had no time to write this part yet.
+    /etc/initd
+    #ttyS0::askfirst:/bin/login
+    echo > /etc/dropbear/authorized_keys  
+ 
 # Want get rid of the default layout?
 
    Then we has to edit the CSS files.
