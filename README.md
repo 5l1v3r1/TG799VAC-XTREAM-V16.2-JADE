@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-lo Gentoo friends. I have been added installations scripts for gl/pzs-ng back to my git, sorry it toke THAT long time to re-upload them (just toke 2years? ;P).. Go grab the scripts here https://github.com/wuseman/wglftpd .. Let me know if things works as expected. Also alot of various scripts from different fellas was added earlier this week..
-
-
-
-Eggdrop and all other stuff will also get re-upped later but not right now. Atleast you can get things up and running within ~30seconds again. Pzs-ng and imdb features is supposed to work aswell.Will add it to wuseman-overlay later.. Questions? Feel free to pm me. For faster replies you will find me on @freenode #Gentoo, k thx
-=======
 ![Screenshot](/files/tg799vac-xtreme.gif)
+
 # README
 
    Telia users with this router model can finally unlock the router and get more features added by hacking the firmware due to an exploit missed by Technicolor developers, this hack works for all 
@@ -153,12 +147,15 @@ is hacking their
     uci set system.config.export_unsigned='1'
     uci set system.config.import_plaintext='1'
     uci set system.config.import_unsigned='1'
-    sed -e 's/session:hasAccess("\/modals\/diagnostics-network-modal.lp")/session:hasAccess("\/modals\/diagnostics-network-modal.lp") and \n session:hasAccess("\/modals\/diagnostics-tcpdump-modal.lp")/' -i /www/cards/009_diagnostics.lp
-    sed -e 's^alt="network"></div></td></tr>\\^alt="network"></div></td>\\\n <td><div data-toggle="modal" data-remote="modals/diagnostics-tcpdump-modal.lp" data-id="diagnostics-tcpdump-modal"><img href="#" rel="tooltip" data-original-title="TCPDUMP" 
+    sed -e 's/session:hasAccess("\/modals\/diagnostics-network-modal.lp")/session:hasAccess("\/modals\/diagnostics-network-modal.lp") and \n session:hasAccess("\/modals\/diagnostics-tcpdump-modal.lp")/' -i 
+/www/cards/009_diagnostics.lp
+    sed -e 's^alt="network"></div></td></tr>\\^alt="network"></div></td>\\\n <td><div data-toggle="modal" data-remote="modals/diagnostics-tcpdump-modal.lp" data-id="diagnostics-tcpdump-modal"><img href="#" rel="tooltip" 
+data-original-title="TCPDUMP" 
     src="/img/network_sans-32.png" alt="network"></div></td></tr>\\^' -i /www/cards/009_diagnostics.lp
     sed -e 's/{"logviewer-modal.lp", T"Log viewer"},/{"logviewer-modal.lp", T"Log viewer"},\n {"diagnostics-tcpdump-modal.lp", T"tcpdump"},\n/' -i /www/snippets/tabs-diagnostics.lp
     sed -e 's/getrole()=="guest"/getrole()=="admin"/' -i /www/snippets/tabs-voice.lp
-    sed -e 's/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},\n{"mmpbx-inoutgoingmap-modal.lp", T"In-Out Mapping"},\n{"mmpbx-statistics-modal.lp", T"Statistics"},/' -i /www/snippets/tabs-voice.lp
+    sed -e 's/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},\n{"mmpbx-inoutgoingmap-modal.lp", T"In-Out Mapping"},\n{"mmpbx-statistics-modal.lp", T"Statistics"},/' -i 
+/www/snippets/tabs-voice.lp
     sed -e 's/if currentuserrole == "guest" /if currentuserrole == "admin" /' -i /www/docroot/modals/gateway-modal.lp
     echo > /etc/rc.local
     /etc/init.d/nginx restart;
@@ -200,13 +197,58 @@ is hacking their
     uci add_list web.xdsllowmodal.roles='admin'
     uci commit
 
-#### Changing max sync speeds
+#### Add/Delete ADSL profiles and modes
 
+    uci del_list xdsl.dsl0.profile='8a'
+    uci del_list xdsl.dsl0.profile='8b'
+    uci del_list xdsl.dsl0.profile='8c'
+    uci del_list xdsl.dsl0.profile='8d'
+    uci del_list xdsl.dsl0.profile='12a'
+    uci del_list xdsl.dsl0.profile='12b'
+    uci del_list xdsl.dsl0.multimode='gdmt'
+    uci del_list xdsl.dsl0.multimode='adsl2annexm'
+    uci del_list xdsl.dsl0.multimode='adsl2plus'
+    uci commit
+    
+#### Changing max sync speed
     uci set xdsl.dsl0.maxaggrdatarate='160000'
     uci set xdsl.dsl0.maxdsdatarate='110000'
     uci set xdsl.dsl0.maxusdatarate='40000'
     uci commit xdsl
     reboot
+   
+##### Enable/Disable WIFI
+
+    uci set wireless.radio_2G.state='0'
+    uci set wireless.radio_5G.state='0'
+    uci commit
+
+    /etc/init.d/hostapd stop
+    /etc/init.d/hostapd disable
+
+##### Enable/Disable ODHCP services
+
+    /etc/init.d/odhcpd stop
+    /etc/init.d/odhcpd disable
+
+##### Enable/Disable dnsmasq as all interfaces are ignored now
+ 
+    uci show dhcp.lan.ignore='1'
+    
+    /etc/init.d/dnsmasq stop
+    /etc/init.d/dnsmasq disable
+
+##### Enable/Disable network time server
+
+    uci set system.ntp.enable_server='0'
+    uci commit
+
+    /etc/init.d/sysntpd restart
+
+##### Enable/Disable IGMP Proxy
+
+    /etc/init.d/igmpproxy stop
+    /etc/init.d/igmpproxy disable
 
 #### Using bridge mode with a dedicated PPPoE ethernet port
   
@@ -232,7 +274,199 @@ is hacking their
      return false
      end
      /etc/init.d/nginx restart
+     
+#### Disable WWAN support (mobiled)
 
+     uci set mobiled.globals.enabled='0'
+     uci set mobiled.device_defaults.enabled='0'
+     uci commit
+     /etc/init.d/mobiled stop
+     /etc/init.d/mobiled disable
+     
+#### Disable Content Sharing (Samba / DNLA)
+
+     uci set samba.samba.enabled='0'
+     /etc/init.d/samba stop
+     /etc/init.d/samba disable
+     /etc/init.d/samba-nmbd stop
+     /etc/init.d/samba-nmbd disable
+     uci set dlnad.config.enabled='0'
+     uci commit
+     
+     /etc/init.d/dlnad stop
+     /etc/init.d/dlnad disable
+     
+#### Disable Monitor Of Traffic
+
+**Random Example Preview**
+
+![Screenshot](files/tg799vac-xtreme-10.gif)
+
+     uci set system.@trafficmon[0].interface=''
+     uci set system.@trafficmon[0].minute=''
+     uci set system.@trafficmon[1].interface=''
+     uci set system.@trafficmon[1].minute=''
+     uci set system.@trafficmon[2].interface=''
+     uci set system.@trafficmon[2].minute=''
+     uci set system.@trafficmon[3]=trafficmon
+     uci set system.@trafficmon[3].interface=''
+     uci set system.@trafficmon[3].minute=''
+
+
+
+#### Disable Time of Day ACL rules
+
+     uci set tod.global.enabled='0'
+     uci commit
+
+     /etc/init.d/tod stop
+     /etc/init.d/tod disable
+     
+# _Root your TG799 Router_
+
+_Thanks davidjb for this excellent nice tutorial_
+
+    inactive_bank="$(cat /proc/banktable/inactive)"  # bank_1 or bank_2
+    inactive_overlay="/overlay/$inactive_bank"
+    rm -rf "$inactive_overlay"
+    mkdir -p "$inactive_overlay/etc"
+    chmod 755 "$inactive_overlay"
+    chmod 775 "$inactive_overlay/etc"
+    echo "echo root:root | chpasswd" > "$inactive_overlay/etc/rc.local"
+    echo "dropbear -p 6666 &" >> "$inactive_overlay/etc/rc.local"
+    chmod +x "$inactive_overlay/etc/rc.local"
+
+    echo "$inactive_bank" > /proc/banktable/active
+    sync
+    reboot
+
+### Setup
+
+1. Disconnect any form of WAN connection from your modem, such as the xDSL
+   line or Ethernet connection on the WAN port.  This is super important in
+   ensuring that the modem's firmware doesn't go auto-updating.
+   
+1. Have a computer or device on hand where you can set up the following tools.
+   If you don't have Python (with tkinter support) or Git installed, you'll
+   need to install them both or figure out a plan to proceed manually.
+   
+   Your device will need to have a GUI (eg not be a headless server) 
+   as well for at least when tkinter gets used for the `autoflashgui` tool.
+   Everything else should work headless, if you're so inclined.
+   
+1. Get the latest version of these scripts; you'll need them for later:
+
+   ```sh
+   git clone https://github.com/davidjb/technicolor-tg799vac-hacks.git
+   ```
+   
+   Make sure you do this on your computer/device rather than on your modem.
+
+1. Get the latest version of `autoflashgui`, the firmware flashing and root
+   tool:
+
+   ```sh
+   git clone https://github.com/mswhirl/autoflashgui.git
+   ```
+   
+   Again, make sure this is on your computer/device and not your modem.
+
+1. [Get the
+   firmware](https://drive.google.com/drive/folders/1n9IAp9qUauTT9eMLf3oYQMbodFEGFHyL)
+   for your TG799vac device.  You'll need the two firmwares
+   as indicated below.  For completeness, here are the SHA-256 hashes:
+
+   ```
+   38b41546133b2e979befce8e824654289aa237446fc4118444f271423c35e3fa vant-f_CRF687-16.3.7567-660-RG.rbi
+   0c9bf5e739600ceae61362eebc6ee271783ff85e5d60e3c3076f98bd37648d02 vant-f_CRF683-17.2.188-820-RA.rbi
+   ```
+
+1. Setup the `autoflashgui` tool:
+
+   ```sh
+   cd autoflashgui
+   virtualenv .
+   source ./bin/activate
+   pip install robobrowser==0.5.3
+   ```
+
+### Flash and get root
+
+If your modem happens to be running a newer firmware version (such as an
+Over-The-Air [OTA] upgrade that happened) or you happen to get locked out for
+any reason, try a factory reset with the modem physically disconnected from
+the Internet.
+
+To factory reset, get a paperclip and hold down the reset button for 15
+seconds.  Release the button and wait a few moments -- the modem will restore,
+all the LEDs will flash and the modem will reset.
+
+1. Start the tool:
+
+   ```sh
+   python autoflashgui.py
+   ```
+
+1. Flash `vant-f_CRF683-17.2.188-820-RA.rbi` with the tool.  This will fail to
+   root (console will continually keep trying to connect and fail; this is
+   okay).  In my second attempt with a modem starting from firmware 15.3, this
+   actually appeared to succeed and send comamnds to the newly-booted 17.2
+   firmware, but the SSH port wasn't open.
+
+
+1. Kill the tool in the console with `Control-C`.
+
+1. Flash `vant-f_CRF687-16.3.7567-660-RG.rbi` with the tool. This will take a
+   little while as it authenticates, then flashes, waits for a reboot of the
+   modem and then eventually proceeds to perform command injection on the
+   modem.
+
+   If at this point the modem is not allowing SSH connections, then you may
+   need to reflash the version of 17.2 now when on what should be a rooted
+   version of 16.3.  This is something I observed when the firmware first
+   started out at 17.2 on one specific device, so I suspect the flashing of
+   17.2 when already on some version of 17.2 meant the flash didn't take or
+   apply correctly.  In any case, reflashing 17.2 at this point (and then
+   reflashing 16.3 *again*...) solved this for me.  Once you do get an SSH
+   session available, you can continue on.
+
+1. When done, SSH to the modem as `root` and change the password
+   **immediately**:
+
+   ```sh
+   ssh root@10.0.0.138
+   # Now on the modem...
+   passwd
+   ```
+
+1. Remove the pre-existing `/etc/dropbear/authorized_keys` file and ideally
+   replace it with your own.  This is a fun little backdoor the devs left
+   there, judging by the comment `TCH Debug` on one of the keys.
+
+1. Reboot the modem to complete disabling the services that were killed during
+   the rooting process with `autoflashgui.py`
+
+### Root and switch to new firmware
+
+By this point, your modem is now running `16.3` firmware and has the `17.2`
+firmware on board in its inactive, secondary flash partition.  We'll now
+switch over to the latter firmware after injecting the ability to give
+ourselves root.
+
+1. Re-connect to the modem's wifi network and SSH back in to run the contents
+   of `01-root-and-switch-fw.sh`:
+
+   ```sh
+   ssh root@10.0.0.138 'sh' < ./01-root-and-switch-fw.sh
+   ```
+
+   _There are more secure ways to run the file, like actually inspecting the
+   contents.  It's up to you how safe you'd like to play it and mostly how
+   much you trust me / GitHub._
+
+
+
+     
 #### Tired on passwords and want to use dropbear key for login instead, then do following:
 
 #### Generate the Key Pair on your pc (not router):
@@ -358,4 +592,4 @@ is hacking their
 
 
 
->>>>>>> ef568bec449e3893a3fe269ab2f23f5d8bc7e815
+
