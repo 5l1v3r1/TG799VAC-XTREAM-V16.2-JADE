@@ -330,10 +330,6 @@ is hacking their
      
 #### Disable Monitor Of Traffic
 
-**Random Example Preview**
-
-![Screenshot](files/tg799vac-xtreme-10.gif)
-
      uci set system.@trafficmon[0].interface=''
      uci set system.@trafficmon[0].minute=''
      uci set system.@trafficmon[1].interface=''
@@ -344,7 +340,9 @@ is hacking their
      uci set system.@trafficmon[3].interface=''
      uci set system.@trafficmon[3].minute=''
 
+**Random Example Preview For Disable Monitor Of Traffic**
 
+![Screenshot](files/tg799vac-xtreme-10.gif)
 
 #### Disable Time of Day ACL rules
 
@@ -353,23 +351,7 @@ is hacking their
 
      /etc/init.d/tod stop
      /etc/init.d/tod disable
-     
-# _Root your TG799 Router_ ( DANGEROUS! YOU HAVE BEEN WARNED)
-
-    inactive_bank="$(cat /proc/banktable/inactive)"  # bank_1 or bank_2
-    inactive_overlay="/overlay/$inactive_bank"
-    rm -rf "$inactive_overlay"
-    mkdir -p "$inactive_overlay/etc"
-    chmod 755 "$inactive_overlay"
-    chmod 775 "$inactive_overlay/etc"
-    echo "echo root:root | chpasswd" > "$inactive_overlay/etc/rc.local"
-    echo "dropbear -p 6666 &" >> "$inactive_overlay/etc/rc.local"
-    chmod +x "$inactive_overlay/etc/rc.local"
-
-    echo "$inactive_bank" > /proc/banktable/active
-    sync
-    reboot
-   
+      
 #### For login with debug mode enabled, then please go to:
      
      http://192.168.1.1/?debug=1
@@ -389,11 +371,12 @@ is hacking their
     sed -i '3s/^.//g' /etc/inittab
    
 #### Enable bridged mode from /etc/config/network
+Add this settings under the interface 'lan' .. I have provided a video for this step, commands is below my video.
 
 ![Screenshot](files/tg799vac-xtreme-11.gif)
-Add this settings under the interface 'lan' .. I have provided a video for this step
- 
+
     cat  /etc/config/network | grep -A11 "interface 'lan'" # This will list current settings
+
     config interface 'lan'
     option type 'bridge'
     option proto 'static'
@@ -442,7 +425,23 @@ Add this settings under the interface 'lan' .. I have provided a video for this 
    
    ![Screenshot](files/tg799vac-xtreme-6.png)
 
+# _Root your TG799 Router_ 
+### ( DANGEROUS! YOU HAVE BEEN WARNED)
 
+    inactive_bank="$(cat /proc/banktable/inactive)"  # bank_1 or bank_2
+    inactive_overlay="/overlay/$inactive_bank"
+    rm -rf "$inactive_overlay"
+    mkdir -p "$inactive_overlay/etc"
+    chmod 755 "$inactive_overlay"
+    chmod 775 "$inactive_overlay/etc"
+    echo "echo root:root | chpasswd" > "$inactive_overlay/etc/rc.local"
+    echo "dropbear -p 6666 &" >> "$inactive_overlay/etc/rc.local"
+    chmod +x "$inactive_overlay/etc/rc.local"
+
+    echo "$inactive_bank" > /proc/banktable/active
+    sync
+    reboot
+    
 # Want get rid of the default layout?
 
    Then we has to edit the CSS files.
