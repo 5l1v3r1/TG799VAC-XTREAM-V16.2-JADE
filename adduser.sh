@@ -5,7 +5,7 @@ _top_id=0
 
 set_pass() {
     local user="wuseman"
-    local pass="odemnn"
+    local pass="wuseman"
     local opt;
 
     [ "${pass}" != "${pass/\$1\$/}" ] && opt="-e"
