@@ -289,6 +289,10 @@ is hacking their
 
     cat /etc/resolv.conf
     
+#### Edit nsplink to something else (where you get redirected when you click on the logo at top) 
+
+    uci set web.uidefault.nsplink='https://sendit.nu'
+
 #### Enable web interface features in Bridge Mode
     If you have the modem in bridge mode, the web interface is gutted compared to in routed mode.
     Edit /www/lua/cards_limiter.lua and change the following function to:
