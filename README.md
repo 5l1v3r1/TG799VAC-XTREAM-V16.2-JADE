@@ -293,6 +293,11 @@ is hacking their
 
     uci set web.uidefault.nsplink='https://sendit.nu'
 
+#### Check for unwanted traffic: 
+#### This will show all ip connected to your router atm..
+
+    netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u  
+
 #### Enable web interface features in Bridge Mode
     If you have the modem in bridge mode, the web interface is gutted compared to in routed mode.
     Edit /www/lua/cards_limiter.lua and change the following function to:
