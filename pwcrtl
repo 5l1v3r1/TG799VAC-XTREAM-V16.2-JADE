@@ -1,0 +1,119 @@
+# pwctrl show
+# Functional Block           Status
+# CPU Speed Divisor          0
+# CPU Wait                   ENABLED
+# DRAM Self-Refresh          DISABLED
+# Ethernet Auto Power Down   ENABLED
+# Energy Efficient Ethernet  DISABLED
+# AutoGreeen                 DISABLED
+# Adaptive Voltage Scaling   DISABLED
+# AVS Log Period (sec)       0
+
+
+/lib/ld-uClibc.so.0
+stderr
+fprintf
+PwrMngtCtl_Uninitialize
+bcm_phy_apd_get
+bcm_phy_eee_get
+bcm_phy_autogreeen_get
+PwrMngtCtl_GetConfig
+puts
+strcmp
+atoi
+bcm_phy_apd_set
+bcm_phy_eee_set
+bcm_phy_autogreeen_set
+PwrMngtCtl_SetConfig
+PwrMngtCtl_Initialize
+memset
+strcpy
+cmsMsg_init
+exit
+libpwrctl.so
+_DYNAMIC_LINKING
+__RLD_MAP
+_fini
+_GLOBAL_OFFSET_TABLE_
+_Jv_RegisterClasses
+libethswctl.so
+libcms_util.so
+libbcm_crc.so
+libbcm_flashutil.so
+libcms_boardctl.so
+libcrypt.so.0
+libcms_msg.so
+libgcc_s.so.1
+libc.so.0
+__uClibc_main
+_ftext
+_fdata
+_edata
+__bss_start
+_fbss
+_end
+ !'9
+ 0!&y
+A&R 
+&s(`
+ !$Y
+ !'9
+ Usage: %s start
+       %s stop
+       %s config ...
+                 [--cpuspeed <0|1|2|4|8|256>]: 1-8 -> sets speed @ 1/1, 1/2, 1/4 or 1/8th of fullspeed in ASYNC mode.
+                                               0   -> 1/1 in SYNC mode
+                                               256 -> 1/8 ASYNC when entering wait, 1/1 SYNC otherwise.
+                 [--wait on|off]             : keeps CPU in sleep state without spinning
+                 [--sr on|off]               : DRAM Self Refresh Mode Enable (requires Wait enabled)
+                 [--ethapd on|off]           : Ethernet Auto Power Down Enable
+                 [--eee on|off]              : Energy Efficient Ethernet Enable
+                 [--autogreeen on|off]       : AutoGreeen Enable
+                 [--avs on|off|stopped|deep] : Adaptive Voltage Scaling Enable
+                                               on      -> to enable AVS while guaranteeing best performance
+                                               stopped -> for testing only, to hold the voltage to its current setting
+                                               deep    -> for more savings, with possible impact on WiFi data rates
+                                                          (The deep option only makes a difference on some chips)
+       %s show
+       %s help
+ENABLED
+DISABLED
+DEEP
+STOPPED
+Power Management Configuration
+%-26s %s
+Functional Block
+Status
+CPU Speed Divisor
+auto
+auto (wait disabled)
+%-26s %d
+CPU Wait
+DRAM Self-Refresh
+Ethernet Auto Power Down
+Energy Efficient Ethernet
+AutoGreeen
+Adaptive Voltage Scaling
+AVS Log Period (sec)
+--cpuspeed
+%s: invalid parameter for option %s
+--cpur4kwait
+--wait
+--sr
+--ethapd
+--eee
+--avs
+stopped
+deep
+%s: invalid parameter %s for option %s
+--avslog
+--autogreeen
+%s: too many options
+%s: invalid option
+%s: invalid command
+--eth
+start
+lconfig
+show
+stop
+hhelp
