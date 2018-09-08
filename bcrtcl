@@ -1,0 +1,32 @@
+root@teliahasbeenowned:/usr/local/etc# brctl 
+Usage: brctl [commands]
+commands:
+        addbr           <bridge>                add bridge
+        delbr           <bridge>                delete bridge
+        addif           <bridge> <device>       add interface to bridge
+        delif           <bridge> <device>       delete interface from bridge
+        setageing       <bridge> <time>         set ageing time
+        setbridgeprio   <bridge> <prio>         set bridge priority
+        setfd           <bridge> <time>         set bridge forward delay
+        sethello        <bridge> <time>         set hello time
+        setmaxage       <bridge> <time>         set max message age
+        setpathcost     <bridge> <port> <cost>  set path cost
+        setportprio     <bridge> <port> <prio>  set port priority
+        enableportsnooping      <bridge> <value>        0-disable 1-standard 2-blocking
+        enableproxymode <bridge> <value>        To enable 1 or disable 0
+        show                                    show a list of bridges
+        showmacs        <bridge>                show a list of mac addrs
+        addmacs         <bridge> <ifname> <mac>         add mac addresses to the bridge table
+        delmacs         <bridge> <ifname> <mac>         remove mac addresses from the bridge table
+        deldynmacs      <bridge> <ifname>               remove all dynamic mac address from the bridge table
+        showstp         <bridge>                show bridge stp info
+        stp             <bridge> {on|off}       turn stp on/off
+        mldenableportsnooping   <bridge> <value>        0-disable 1-standard 2-blocking
+        mldenableproxymode      <bridge> <value>        To enable 1 or disable 0
+        enableigmplan2lan       <bridge> <value>        0-disable 1-enable
+        enablemldlan2lan        <bridge> <value>        0-disable 1-enable
+        flows           <bridge> <rxif> <txif>  To setup layer 2 flows to the path (rxif->txif)
+        enableigmpratelimit     <bridge> <value>        0-disable, 1..500-packet rate
+        eponuniunictrl  <bridge> <value>        0-disable 1-enable
+        showmaclmt      <bridge>                show a mac limit of bridge
+        dedicatestp     <bridge> <ifname> <value>       mark port as dedicated for stp
