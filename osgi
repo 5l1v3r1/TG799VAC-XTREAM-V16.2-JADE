@@ -1,0 +1,16 @@
+config osgi 'config'
+        option storage_dir '/opt/osgi'
+        option num_logfile '5'
+        option logfilesize '1024'
+        option logdir '/var/log/osgi_log'
+        option loglevel '4'
+        option memory_limit '30M'
+        option cert_enable '0'
+        option restart_count_after_oom '3'
+        option enabled '1'
+        option log_enable '1'
+        option boot_interval_min_timestamp '01:00'
+        option boot_interval_max_timestamp '05:00'
+
+config bundle_url
+        option url 'http://131.116.22.230/repo/osgi5/TSBoot.jar'
