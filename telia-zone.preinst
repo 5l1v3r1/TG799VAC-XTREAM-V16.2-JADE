@@ -1,0 +1,10 @@
+#!/bin/sh
+# Save file so that we can restore them when the package is removed.
+if [ -z "${IPKG_INSTROOT}" ]; then
+        echo "Saving config files"
+        mkdir -p /usr/local/telia-zone_1.3.2
+        mv /etc/nginx/nginx.conf /usr/local/telia-zone_1.3.2
+        mv /etc/hosts /usr/local/telia-zone_1.3.2
+        mv /usr/lib/lua/web/web.lua /usr/local/telia-zone_1.3.2
+fi
+exit 0
