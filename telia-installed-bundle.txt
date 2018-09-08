@@ -1,0 +1,14 @@
+com.ts.core.util
+com.ts.core.logging
+biz.aQute.bnd.annotation
+com.ts.core.logging.impl
+com.ts.core.logging.factory
+com.ts.core.datamodel
+com.ts.core.auth.srp
+com.ts.core.auth
+com.ts.core.appinstall
+com.ts.core.uci.listener
+com.ts.core.coreapp
+com.ts.core.reporter
+com.ts.core.bootupgrader
+com.ts.core.osgienvfix
