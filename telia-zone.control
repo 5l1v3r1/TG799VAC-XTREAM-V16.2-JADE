@@ -1,0 +1,13 @@
+Package: telia-zone
+Version: 1.3.2-1.arm
+Depends: libc
+Provides: 
+Source: package/telia-zone
+Section: utils
+Status: unknown ok not-installed
+Essential: no
+Priority: optional
+Maintainer: Home Network team Telia Company
+Architecture: brcm63xx-tch
+Installed-Size: 245994
+Description:  Telia Zone on RGW.
