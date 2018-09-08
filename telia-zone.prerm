@@ -1,0 +1,9 @@
+#!/bin/sh
+# check if we are on real system
+if [ -z "${IPKG_INSTROOT}" ]; then
+        echo "Stopping telia-zone daemons"
+        /etc/init.d/zoneredird stop 
+        /etc/init.d/premiumd stop
+        /etc/init.d/zone_watch stop
+fi
+exit 0
