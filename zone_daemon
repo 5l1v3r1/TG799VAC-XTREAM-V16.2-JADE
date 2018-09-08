@@ -1,0 +1,109 @@
+
+start() {
+        /bin/rm -f /tmp/zone_watch.log
+        touch /tmp/zone_watch.log
+
+        # Start daemons.
+        echo "Starting zone_watch: "
+        echo "For more information check Zone_Daemon and Zone_Watch logfiles"
+        echo "--------------------------------------"
+        echo "Max wait time for completion is 20 sec"
+        echo "--------------------------------------"
+
+        $ZONE_WATCH /tmp/zone_watch.log /usr/local/bin/arpzone.sh /tmp/arp.log /usr/local/bin/hotspotzone.sh /tmp/hotspot.log /tmp/premium.ipc /tmp/zonewatcher.ipc 10 1 /usr/local/bin/setbridge.sh 60 360 normal &
+        echo
+
+        i=0
+        ready=0
+
+        while [ $i -lt 10 ]; do
+            sleep 2
+            i=`expr $i + 1`
+
+            echo "Waiting for startup procedure to complete and counting"
+            if [ `tail -10 /tmp/zone_watch.log | grep \*complete\* | wc -l` = 1 ]; then
+                ready=1
+                i=11
+            fi
+        done  
+
+        if [ "$ready" = "1" ]; then
+            echo "Zone_Watch Startup OK"
+            exit 1
+        fi
+
+        echo "Can not start Zone_Watch - Check if it's already running."
+        exit 0
+}
+
+cleanstart() {
+        start
+        echo
+}
+
+boot() {
+        start "$@"
+}
+
+stop() {
+        # Stop daemons.
+        echo "Shutting down zone_watch: "
+        # first send SIGTERM and give it a chance to terminate
+        kill -15 `cat /var/run/zone_watch.pid`
+        sleep 3
+        kill -9 `cat /var/run/zone_daemon.pid`
+        echo 
+}
+
+touch_zone() {
+        # Signal SIGINT to the daemons.
+        echo "Signaling to zone_watch: "
+        kill -2 `cat /var/run/zone_watch.pid`
+        echo 
+}
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  cleanstart)
+        cleanstart
+        ;;
+  stop)
+        stop
+        ;;
+  touch_zone)
+        touch_zone
+        ;;
+  restart|reload)
+        stop
+        start
+        ;;
+  boot)
+        start
+        ;;
+  cleanstart)
+        stop
+        cleanstart
+        ;;
+  *)
+        echo "Usage: /etc/init.d/zone_watch {start|cleanstart|stop|touch_zone|restart|cleanstart}"
+        exit 1
+esac
+
+# HERE I LIST REQUIRED SCRIPTS FOR ^ .. / /wuseman
+# arpzone.sh
+#cat /proc/net/arp > /tmp/arp.log
+
+# hotspotzone.sh
+# brctl showmacs br-hotspot > /tmp/hotspot.log
+
+# serial.sh
+# uci get env.rip.serial
+
+# setbridge.sh
+# brctl setageing br-lan $1
+
+
+
