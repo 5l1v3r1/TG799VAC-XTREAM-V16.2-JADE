@@ -106,4 +106,4 @@ esac
 # brctl setageing br-lan $1
 
 
-
+# /tmp/zone_watch.log /usr/local/bin/arpzone.sh /tmp/arp.log /usr/local/bin/hotspotzone.sh /tmp/hotspot.log /tmp/premium.ipc /tmp/zonewatcher.ip
