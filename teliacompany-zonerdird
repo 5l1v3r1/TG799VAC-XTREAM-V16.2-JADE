@@ -1,0 +1,77 @@
+#!/bin/sh 
+
+# zoneredir start/stop/restart script
+# Michael Huber, TeliaCompany
+# 2016-05-30 : First version
+
+#SERVICE_WRITE_PID=1
+#START=99
+#STOP=20
+#SERVICE_DAEMONIZE=1
+
+# Binary
+ZONEREDIRD=/usr/local/sbin/zoneredir_daemon
+FILE="/tmp/zoneredird.log"
+
+start() {
+
+    # Verify that we are not already running, by checking that we have a logfile...   
+    if [ -f $FILE ];
+    then
+        echo "Zoneredird already started..."
+        exit 0;
+    fi
+    
+    touch $FILE
+
+    # Start the daemon spawner...
+    $ZONEREDIRD  $FILE &
+
+
+    echo "Zoneredird Startup OK"
+    exit 1;
+}
+
+boot() {
+        start "$@"
+}
+
+
+stop() {
+    # Stop daemons.
+    echo "Shutting down zoneredird: "
+    
+    # Make sure it does not respawn...
+    /bin/rm -f /tmp/zoneredird.log
+    
+    # first send SIGTERM and give it a chance to terminate
+    #kill -15 `cat /var/run/zoneredird.pid`
+    killall -15 zoneredir
+    sleep 3
+    #kill -9 `cat /var/run/zoneredir_daemon.pid`
+    killall -9 zoneredir_daemon
+    echo 
+}
+
+
+
+# See how we were called.
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    boot)
+        start
+        ;;
+    restart|reload)
+        stop
+        sleep 3
+        start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/zoneredird {start|stop|restart}"
+        exit 1
+esac
