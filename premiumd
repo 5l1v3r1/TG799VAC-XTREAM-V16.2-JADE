@@ -1,0 +1,23 @@
+#!/bin/sh
+
+while [ -f $1 ]  
+do
+    set -a
+    . /usr/local/etc/premiumd.conf
+    set +a
+    
+    
+    #Notify world that the daemon is alive... Switch to "logger" later...
+    echo "Starting premiumd."
+  
+    # Start the daemon
+    export LD_LIBRARY_PATH="/usr/local/lib/" && /usr/local/sbin/premium -s yourip -p  /set  -i 3600
+    
+    # if it crash, sleep to not respawn to fast...
+    sleep 5
+done  
+
+
+# Example // wuseman
+root@OpenWrt:/usr/local/sbin#  /usr/local/sbin/premium 
+Start premiumzone...
