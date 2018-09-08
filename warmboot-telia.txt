@@ -1,0 +1,51 @@
+config system
+        option hostname 'OpenWrt'
+        option zonename 'Europe/Stockholm'
+        option timezone 'CET-1CEST,M3.5.0,M10.5.0/3'
+        option network_timezone '0'
+        list log_filter 'warmboot'
+        list log_filter 'cwmpd'
+        list log_filter 'Critical'
+        list log_filter 'Zonewatcher'
+        list log_filter 'wifiinfo'
+        option log_filter_ip '81.231.54.00
+
+config timeserver 'ntp'
+        list server 'ntp1.rgw.telia.se'
+        list server 'ntp2.rgw.telia.se'
+        option enable_server '1'
+        option program '/sbin/firstusedate'
+
+config time 'time'
+
+config config 'config'
+        option import_plaintext '1'
+        option usb_filesystem_charset 'utf8'
+        option export_plaintext '1'
+        option export_unsigned '1'
+        option import_unsigned '1'
+
+config coredump
+        option reboot '1'
+        option path '/root'
+        option action 'compress'
+        option url 'https://telia-core.tgwfd.org:5443/'
+
+config log 'logread'
+        option path 'logread'
+
+config trafficmon
+        option interface 'wan'
+        option minute '*/720'
+
+config trafficmon
+        option interface 'mgmt'
+        option minute '*/720'
+
+config trafficmon
+        option interface 'voip'
+        option minute '*/720'
+
+config trafficmon
+        option interface 'iptv'
+        option minute '*/720'
