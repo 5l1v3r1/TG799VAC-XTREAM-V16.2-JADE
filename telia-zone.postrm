@@ -1,0 +1,12 @@
+#!/bin/sh
+# check if we are on real system
+if [ -z "${IPKG_INSTROOT}" ]; then
+        echo "Restoring config files"
+        mv /usr/local/telia-zone_1.3.2/nginx.conf /etc/nginx/
+        mv /usr/local/telia-zone_1.3.2/hosts /etc/
+        mv /usr/local/telia-zone_1.3.2/web.lua /usr/lib/lua/web/
+        rmdir /usr/local/telia-zone_1.3.2
+
+        echo "You need to restart the RGW after the remove."
+fi
+exit 0
