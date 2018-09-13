@@ -53,18 +53,16 @@ is hacking their
     uci add_list web.todmodal.roles='admin'
     uci add_list web.iproutesmodal.roles='admin'
     uci add_list web.cwmpconf.roles='admin'
-    uci add_list web.relaysetupmodal.roles='admin'
     uci add_list web.xdsllowmodal.roles='admin'
     uci add_list web.natalghelper.roles='admin'
     uci add_list web.mmpbxglobalmodal.roles='admin' 
     uci add_list web.mmpbxprofilemodal.roles='admin' 
-#### OBS!! THIS IS A BACKDOOR > Please go whois the ip to witness it yourself
-   So who have access to this machines running on this ip? Of course i asked, 
-   and Telia told me in a mail that **ALL** people who works for Telia Support!! **As if we can know if this is abused?**
-    
+    # OBS!! THIS IS A BACKDOOR > Please go whois the ip to witness it yourself
+    # So who have access to this machines running on this ip? Of course i asked, 
+    # and Telia told me in a mail that **ALL** people who works for Telia Support!! **As if we can know if this is abused?**
     sed -i s/'131.116.22.242'/'xx.xx.xx.xx'/g /etc/config/dropbear 
-#### OBS!! THIS IS A BACKDOOR > Please go whois the ip to witness it yourself 
-   This backdoor is for **ALL** people who works for Technicolor Technologies in Belgium!! **As if we can know if this is abused?**
+    OBS!! THIS IS A BACKDOOR > Please go whois the ip to witness it yourself 
+    # This backdoor is for **ALL** people who works for Technicolor Technologies in Belgium!! **As if we can know if this is abused?**
 
     sed -i s/'82.146.125.0'/'xx.xx.xx.xx'/g /etc/config/dropbear 
 
@@ -75,110 +73,108 @@ is hacking their
     sed -i '25s/0/1/' /etc/config/dropbear
     /etc/init.d/nginx restart
     
-### Above commands gave you 10 new settings in web interface
+##### Above commands gave you 10 new settings in web interface
 
-#### Please go and witness it on http://dlsdevice.lan 
+##### Please go and witness it on http://dlsdevice.lan 
+
    Let me provide the default view to see the difference before and after we run these commands
    since I know that there are people who are paranoid for changes due to root. ;)
    The firmware has been **extremely** downgraded to the worse for us consumers.
 
 ### Default settings for Telia web-interface looks like this:
+
 ![Screenshot](files/tg799vac-xtreme-4.png)
 
 ### This is how it looks after we run these commands above:
+
 ![Screenshot](files/tg799vac-xtreme-5.png)
 
-### Now you can continue to copy and paste to set some important change for our privacy.
+##### RULES
 
-    uci set dropbear.lan.enable='1'
-    uci set dropbear.lan.PasswordAuth=on
-    uci set dropbear.lan.RootPasswordAuth=on
-    uci add_list web.tvoicesipconfig.roles=admin
-    uci add_list web.tvoicecontacts.roles=admin
-    uci add_list web.tvoicecalllog.roles=admin
-    uci add_list web.tvoicecapability.roles=admin
-    uci add_list web.parentalblock.roles=admin
-    uci add_list web.ruleset_main.rules=mmpbxinoutgoingmapmodal
-    uci set web.mmpbxinoutgoingmapmodal=rule
-    uci set web.mmpbxinoutgoingmapmodal.target='/modals/mmpbx-inoutgoingmap-modal.lp'
-    uci add_list web.mmpbxinoutgoingmapmodal.roles=admin
-    uci add_list web.ruleset_main.rules=mmpbxstatisticsmodal
-    uci set web.mmpbxstatisticsmodal=rule
-    uci set web.mmpbxstatisticsmodal.target='/modals/mmpbx-statistics-modal.lp'
-    uci add_list web.mmpbxstatisticsmodal.roles=admin
-    uci set cwmpd.cwmpd_config.state=0
-    uci set cwmpd.cwmpd_config.upgradesmanaged=0
-    uci set cwmpd.cwmpd_config.periodicinform_enable=0
-    uci set cwmpd.cwmpd_config.acs_pass='0'
-    uci set cwmpd.cwmpd_config.acs_user='0'
-    uci set cwmpd.cwmpd_config.acs_url='invalid'
-    uci set wifi_doctor_agent.config.enabled=0
     uci add_list web.ruleset_main.rules=cwmpconfmodal
-    uci set web.cwmpconfmodal=rule
-    uci set web.cwmpconfmodal.target='/modals/cwmpconf-modal.lp'
-    uci add_list web.cwmpconfmodal.roles=admin
-    uci set hotspotd.main.ipv4=0
-    uci set hotspotd.main.enable=false
-    uci set hotspotd.main.deploy=false
-    uci set hotspotd.TLS2G.enable=0
-    uci set hotspotd.FON2G.enable=0
-    uci add_list web.ruleset_main.rules=iproutesmodal
-    uci set web.iproutesmodal=rule
-    uci set web.iproutesmodal.target='/modals/iproutes-modal.lp'
-    uci add_list web.iproutesmodal.roles=admin
-    uci add_list web.ruleset_main.rules=systemmodal
-    uci set web.systemmodal=rule
-    uci set web.systemmodal.target='/modals/system-modal.lp'
-    uci add_list web.systemmodal.roles=admin
+    uci add_list web.ruleset_main.rules=mmpbxinoutgoingmapmodal
+    uci add_list web.ruleset_main.rules=mmpbxstatisticsmodal
     uci add_list web.ruleset_main.rules=relaymodal
-    uci set web.relaymodal=rule
-    uci set web.relaymodal.target='/modals/relay-modal.lp'
-    uci add_list web.relaymodal.roles=admin
-    uci add_list web.ruleset_main.rules=natalghelpermodal
+    uci add_list web.ruleset_main.rules=xdsllowmodal
+    uci add_list web.ruleset_main.rules=iproutesmodal
+    
+###### WEB RULE
+
+    uci set web.iproutesmodal=rule
+    uci set web.cwmpconfmodal=rule
     uci set web.natalghelpermodal=rule
-    uci set web.natalghelpermodal.target='/modals/nat-alg-helper-modal.lp'
-    uci add_list web.natalghelpermodal.roles=admin
-    uci set tls-vsparc.Config.Enabled='0'
-    uci set tls-vsparc.Passive.PassiveEnabled='0'
+    uci set web.mmpbxstatisticsmodal=rule
+    
+###### RULESETS
+
+    uci add_list web.ruleset_main.rules=systemmodal
+    uci add_list web.ruleset_main.rules=natalghelpermodal
     uci add_list web.ruleset_main.rules=diagnosticstcpdumpmodal
     uci set web.diagnosticstcpdumpmodal=rule
-    uci set web.diagnosticstcpdumpmodal.target='/modals/diagnostics-tcpdump-modal.lp'
+    uci set web.mmpbxinoutgoingmapmodal=rule
+    uci set web.systemmodal=rule
+    uci set web.relaymodal=rule
+    
+###### ROLES
+
+    uci add_list web.parentalblock.roles=admin
     uci add_list web.diagnosticstcpdumpmodal.roles=admin
+    uci add_list web.natalghelpermodal.roles=admin
+    uci add_list web.relaymodal.roles=admin
+    uci add_list web.cwmpconfmodal.roles=admin
+    uci add_list web.iproutesmodal.roles=admin
+    uci add_list web.systemmodal.roles=admin
+    uci add_list web.mmpbxstatisticsmodal.roles=admin
+    uci add_list web.mmpbxinoutgoingmapmodal.roles=admin
+    uci add_list web.xdsllowmodal.roles='admin'
+
+###### MODALS
+
+    uci set web.iproutesmodal.target='/modals/iproutes-modal.lp'
+    uci set web.cwmpconfmodal.target='/modals/cwmpconf-modal.lp'
+    uci set web.systemmodal.target='/modals/system-modal.lp'
+    uci set web.relaymodal.target='/modals/relay-modal.lp'
+    uci set web.natalghelpermodal.target='/modals/nat-alg-helper-modal.lp'
+    uci set web.diagnosticstcpdumpmodal.target='/modals/diagnostics-tcpdump-modal.lp'
+    uci set web.mmpbxinoutgoingmapmodal.target='/modals/mmpbx-inoutgoingmap-modal.lp'
+    uci set web.mmpbxstatisticsmodal.target='/modals/mmpbx-statistics-modal.lp'
+    uci set web.xdsllowmodal.target='/modals/xdsl-low-modal.lp'
+    
+##### STATUS (ENABLE/DISABLED)
+
     uci set system.config.export_plaintext='1'
     uci set system.config.export_unsigned='1'
     uci set system.config.import_plaintext='1'
     uci set system.config.import_unsigned='1'
-    sed -e 's/session:hasAccess("\/modals\/diagnostics-network-modal.lp")/session:hasAccess("\/modals\/diagnostics-network-modal.lp") and \n session:hasAccess("\/modals\/diagnostics-tcpdump-modal.lp")/' -i /www/cards/009_diagnostics.lp
-    sed -e 's^alt="network"></div></td></tr>\\^alt="network"></div></td>\\\n <td><div data-toggle="modal" data-remote="modals/diagnostics-tcpdump-modal.lp" data-id="diagnostics-tcpdump-modal"><img href="#" rel="tooltip" data-original-title="TCPDUMP" src="/img/network_sans-32.png" alt="network"></div></td></tr>\\^' -i /www/cards/009_diagnostics.lp
-    sed -e 's/{"logviewer-modal.lp", T"Log viewer"},/{"logviewer-modal.lp", T"Log viewer"},\n {"diagnostics-tcpdump modal.lp", T"tcpdump"},\n/' -i /www/snippets/tabs-diagnostics.lp
-    sed -e 's/getrole()=="guest"/getrole()=="admin"/' -i /www/snippets/tabs-voice.lp
-    sed -e 's/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},/{"mmpbx-sipdevice-modal.lp", T"Sip Device"},\n{"mmpbx-inoutgoingmap-modal.lp", T"In-Out Mapping"},\n{"mmpbx-statistics-modal.lp", T"Statistics"},/' -i /www/snippets/tabs-voice.lp
-    sed -e 's/if currentuserrole == "guest" /if currentuserrole == "admin" /' -i /www/docroot/modals/gateway-modal.lp
-    echo > /etc/rc.local
-    /etc/init.d/nginx restart;
-    /etc/init.d/cwmpd disable;
-    /etc/init.d/cwmpdboot disable;
-    /etc/init.d/wifi-doctor-agent disable;
-    /etc/init.d/hotspotd disable;
-    /etc/init.d/tls-vsparc disable; 
-    killall -9 hotspotd cwmpd cwmpdboot watchdog-tch wifi-doctor-agent tls-vsparc;
-    /etc/init.d/dropbear start
-    uci commit
-  
-#### Want to install ipk packages with a working opkg.conf? 
+    uci set dropbear.lan.enable='1'
+    uci set dropbear.lan.PasswordAuth=on
+    uci set dropbear.lan.RootPasswordAuth=on
+    uci set hotspotd.TLS2G.enable=0
+    uci set hotspotd.FON2G.enable=0
+    uci set hotspotd.main.ipv4=0
+    uci set wifi_doctor_agent.config.enabled=0
+    uci set cwmpd.cwmpd_config.state=0
+    uci set cwmpd.cwmpd_config.upgradesmanaged=0
+    uci set cwmpd.cwmpd_config.periodicinform_enable=0
+    uci set cwmpd.cwmpd_config.acs_pass='0'
+    uci set cwmpd.cwmpd_config.acs_user='0'  
+    uci set tls-vsparc.Config.Enabled='0'
+    uci set tls-vsparc.Passive.PassiveEnabled='0'
+    uci set hotspotd.main.enable=false
+    uci set hotspotd.main.deploy=false
+
+#### Install ipk packages with a working opkg.conf.
 #### Then Follow This Video I Made For You ;)
 
 ![Screenshots](files/tg799vac-xtreme13.gif)
 
-### Now go install a package, let me show an example for wget
+### Now go install a package, let me show an example how-to install wget:
     
     opkg install wget
     Installing wget (1.13.4-1) to root...
     Downloading http://downloads.openwrt.org/attitude_adjustment/12.09/brcm63xx/generic/packages//wget_1.13.4-1_brcm63xx.ipk.
     Multiple packages (librt and librt) providing same name marked HOLD or PREFER. Using latest.
     Configuring wget.
-
-    Thats it ;)
     
 #### List URLs for firmware that can be downloaded.
 
@@ -213,17 +209,8 @@ is hacking their
     transfera Stateb7
     transfera StartTimed
     transfera PasswordV
+    ...........
     
-    And alot more will be posted, i just wanna show you how it is done. 
-
-### If you wish to add the selections to the web interface to play with later, you can run the following:
-
-    uci add_list web.ruleset_main.rules=xdsllowmodal
-    uci set web.xdsllowmodal=rule
-    uci set web.xdsllowmodal.target='/modals/xdsl-low-modal.lp'
-    uci add_list web.xdsllowmodal.roles='admin'
-    uci commit
-
 #### Add/Delete ADSL profiles and modes
 
     uci del_list xdsl.dsl0.profile='8a'
@@ -235,12 +222,13 @@ is hacking their
     uci del_list xdsl.dsl0.multimode='gdmt'
     uci del_list xdsl.dsl0.multimode='adsl2annexm'
     uci del_list xdsl.dsl0.multimode='adsl2plus'
-    uci commit
+
     
 #### Changing max sync speed
-    uci set xdsl.dsl0.maxaggrdatarate='160000'
-    uci set xdsl.dsl0.maxdsdatarate='110000'
-    uci set xdsl.dsl0.maxusdatarate='40000'
+
+    uci set xdsl.dsl0.maxaggrdatarate='200000' # 16000 default
+    uci set xdsl.dsl0.maxdsdatarate='140000'   # 11000 default
+    uci set xdsl.dsl0.maxusdatarate='60000'    # 40000 default
     uci commit xdsl
     reboot
    
@@ -250,9 +238,6 @@ is hacking their
     uci set wireless.radio_5G.state='0'
     uci commit
 
-    /etc/init.d/hostapd stop
-    /etc/init.d/hostapd disable
-
 ##### Enable/Disable ODHCP services
 
     /etc/init.d/odhcpd stop
@@ -261,7 +246,6 @@ is hacking their
 ##### Enable/Disable dnsmasq as all interfaces are ignored now
  
     uci show dhcp.lan.ignore='1'
-    
     /etc/init.d/dnsmasq stop
     /etc/init.d/dnsmasq disable
 
@@ -269,23 +253,21 @@ is hacking their
 
     uci set system.ntp.enable_server='0'
     uci commit
-
-    /etc/init.d/sysntpd restart
-
-##### Enable/Disable IGMP Proxy
+    
+##### Enable/Disable IGMP Proxy:
 
     /etc/init.d/igmpproxy stop
     /etc/init.d/igmpproxy disable
 
-#### Using bridge mode with a dedicated PPPoE ethernet port
+#### Using bridge mode with a dedicated PPPoE ethernet port:
   
     uci set network.lan.dns='8.8.8.8'
-    uci set network.lan.gateway='10.0.0.254'
+    uci set network.lan.gateway='192.168.0.254'
     uci set mmpbxrvsipnet.sip_net.interface='lan'
     uci set mmpbxrvsipnet.sip_net.interface6='lan6'
     uci commit
 
-#### You can check the current running dns with
+#### You can check the current running dns with:
 
     cat /etc/resolv.conf
     
@@ -293,7 +275,6 @@ is hacking their
 
     uci set web.uidefault.nsplink='https://sendit.nu'
 
-#### Check for unwanted traffic: 
 #### This will show all ip connected to your router atm..
 
     netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u  
@@ -456,36 +437,17 @@ You can copy paste everything from below the video if you are lazy.
    
      ssh root@192.168.1.1 "tee -a /etc/dropbear/authorized_keys" < ~/.ssh/id_rsa.pub
      
-#### Now connect:
+#### Now connect to your router without any password required:
    
      ssh root@192.168.1.1
    
    ![Screenshot](files/tg799vac-xtreme-6.png)
 
-# _Root your TG799 Router_ 
-### ( DANGEROUS! YOU HAVE BEEN WARNED)
-
-    inactive_bank="$(cat /proc/banktable/inactive)"  # bank_1 or bank_2
-    inactive_overlay="/overlay/$inactive_bank"
-    rm -rf "$inactive_overlay"
-    mkdir -p "$inactive_overlay/etc"
-    chmod 755 "$inactive_overlay"
-    chmod 775 "$inactive_overlay/etc"
-    echo "echo root:root | chpasswd" > "$inactive_overlay/etc/rc.local"
-    echo "dropbear -p 6666 &" >> "$inactive_overlay/etc/rc.local"
-    chmod +x "$inactive_overlay/etc/rc.local"
-
-    echo "$inactive_bank" > /proc/banktable/active
-    sync
-    reboot
-
 #### Serial Console
 
-    More info will be addded here later, had no time to write this part yet.
     /etc/initd
     #ttyS0::askfirst:/bin/login
-    echo > /etc/dropbear/authorized_keys  
- 
+
 # Want get rid of the default layout?
 
    Then we has to edit the CSS files.
@@ -502,24 +464,31 @@ You can copy paste everything from below the video if you are lazy.
    router then copy & paste my commands below the previews: (or download my css files and scp them over to router)
 
 #### Login page:
+
 ![Screenshot](files/tg799vac-xtreme-7.png)
 
 #### Once you've logged in, it looks like this:
+
 ![Screenshot](files/tg799vac-xtreme-8.png)
 
 #### This is my personal theme from a mobile device:
+
 ![Screenshot](files/tg799vac-xtreme-9.png)
 
 #### This is my personal theme from a pc device:
+
 ![Screenshot](files/tg799vac-xtreme-10.png)
 
 #### A failed login attempt as user 'telia' or 'assist' (ofc, all usernames will be logged) will be reported from now since they dont have permissions to login if i didnt requested support from them:
+
 ![Screenshot](files/tg799vac-xtreme-11.png)
 
 #### We can see failed login attempts in the system log for both telnet, ssh and the web:
+
 ![Screenshot](files/tg799vac-xtreme-12.png)
 
 #### To get colors as above, paste following in router shell: 
+
     sed -i s/'333333'/'e6e6e6'/g gw.css; sed -i s/'333333'/'e6e6e6'/g responsive.css; sed -i s/'333333'/'e6e6e6'/g lte-doctor.css; 
     sed -i s/'333333'/'e6e6e6'/g chosen.css; sed -i s/'333333'/'e6e6e6'/g mobiled.css; sed -i s/'990ae3'/'55aa7f'/g gw.css; 
     sed -i s/'990ae3'/'55aa7f'/g responsive.css; sed -i s/'990ae3'/'55aa7f'/g chosen.css; sed -i s/'990ae3'/'55aa7f'/g mobiled.css; 
@@ -551,23 +520,12 @@ You can copy paste everything from below the video if you are lazy.
     sed -i s/'d9d9d9'/'222222'/g lte-doctor.css; sed -i s/'d9d9d9'/'222222'/g chosen.css; sed -i s/'0088cc'/'#5ebe8d'/g responsive.css; 
     sed -i s/'0088cc'/'#5ebe8d'/g lte-doctor.css; sed -i s/'0088cc'/'#5ebe8d'/g chosen.css
 
-## Todo in upcomming updates:
-
-     Add how-to downgrade/upgrade firmware
-     Add how-to get access via serial port and how-to short circuit compononents to get rid of read only rom
-     Add how-to it is possible to get openvpn running
-     Add how-to get rid of OPKG and fix JFFS2
-
-#### 'Bah wuseman, i am already an pro expert, provide something useful for me?'
-     I will do asap i got time. I will add a how-to for LUCI WEBGUI and you will 
-     gain FULL access to your router for real!! (requires more then 8mb flash):
-
-### Have fun and be careful with other settings not provided by me! ;)
+##### Have fun and be careful with other settings not provided by me! ;)
 
 
 # CONTACT
 
-     If you have problems, questions, ideas or suggestions please contact
+If you have problems, questions, ideas or suggestions please contact
      us by posting to info@sendit.nu
 
 # WEB SITE
