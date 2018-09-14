@@ -26,6 +26,10 @@ is hacking their
 
    With all that said let's start with the funny part.
 
+####### Add your own user without any extra tools
+
+![Screenshot](files/adduser.gif)
+
 # HOWTO
 
 ###### Set up a netcat listener on your machine, and adjust any firewall rules to allow an inbound connection:
