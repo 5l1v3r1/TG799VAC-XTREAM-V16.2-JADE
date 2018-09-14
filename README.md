@@ -26,7 +26,7 @@ is hacking their
 
    With all that said let's start with the funny part.
 
-####### Add your own user without any extra tools
+###### Add your own user without any extra tools
 
 ![Screenshot](files/adduser.gif)
 
